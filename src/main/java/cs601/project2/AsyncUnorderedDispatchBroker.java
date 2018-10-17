@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import sun.util.logging.resources.logging;
+
 /**
  * 
  * @author dhartimadeka
@@ -20,15 +22,7 @@ public class AsyncUnorderedDispatchBroker<T> implements Broker<T> {
 
 	private List<Subscriber<T>> subscriberList = new ArrayList<Subscriber<T>>();
 	private static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	private ExecutorService executor;
-	/**
-	 * Constructor to initialize thread pool and logger.
-	 */
-	public AsyncUnorderedDispatchBroker() 
-	{
-		executor = Executors.newFixedThreadPool(5);
-		logger.log(Level.INFO, MsgLog.asyncUnordeStart);
-	}
+	private ExecutorService executor = Executors.newFixedThreadPool(4);
 	/**
 	 * Publish - overrides broker's publish method.
 	 * @param item - item to handled by helper threads and passed to subscriber.
@@ -36,12 +30,6 @@ public class AsyncUnorderedDispatchBroker<T> implements Broker<T> {
 	@Override
 	public void publish(T item) 
 	{
-		//		Runnable task = () -> {
-		//			for (Subscriber<T> subs : subscriberList) {
-		//					subs.onEvent(item);
-		//			}
-		//		};
-		//		executor.submit(task);
 		executor.execute(new Runnable() 
 		{
 			@Override
@@ -49,7 +37,7 @@ public class AsyncUnorderedDispatchBroker<T> implements Broker<T> {
 			{
 				// TODO Auto-generated method stub
 				for (Subscriber<T> subs : subscriberList) 
-				{
+				{	
 					subs.onEvent(item);	
 				}
 			}
@@ -76,8 +64,7 @@ public class AsyncUnorderedDispatchBroker<T> implements Broker<T> {
 		logger.log(Level.INFO, MsgLog.shuttingDownBroker);
 		executor.shutdown();
 		try {
-			System.out.println("hello");
-			while(!executor.awaitTermination(50, TimeUnit.MILLISECONDS)) {}
+			while(!executor.awaitTermination(100, TimeUnit.MILLISECONDS)) {}
 		} catch (InterruptedException e) {
 			logger.log(Level.INFO, MsgLog.errorShutingBroker);
 			e.printStackTrace();

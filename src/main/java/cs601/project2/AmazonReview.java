@@ -17,7 +17,6 @@ public class AmazonReview {
 	private static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	public static void main(String[] args) 
 	{
-		//LogHandler logHandle = new LogHandler();
 		if(args.length == 0)
 		{
 			System.out.println("please mention correct filename");
@@ -33,14 +32,11 @@ public class AmazonReview {
 			LogManager.setup();
 		} catch (IOException e1) 
 		{
-			// TODO Auto-generated catch block
-			//System.out.println("mention file name");
 			e1.printStackTrace();
 		}
 		//length of arguments checked
 		if (args.length != 1) 
 		{
-			//System.out.println("please mention correct filename");
 			logger.log(Level.SEVERE, MsgLog.inValidArgs);
 			System.exit(0);
 		}
@@ -52,7 +48,6 @@ public class AmazonReview {
 			config = gson.fromJson(reader, ConfigBean.class);
 		} catch (FileNotFoundException e) 
 		{
-			//System.out.println("please mention file name");
 			logger.log(Level.SEVERE, String.format(MsgLog.invalidConfig, ConfigFileName, e));
 			System.exit(0);
 		}

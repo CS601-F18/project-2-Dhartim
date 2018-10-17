@@ -9,6 +9,7 @@ public class Review
 	private String reviewerID;
 	private String asin;
 	private String reviewerName;
+	private int[] helpful; 
 	private String reviewText;
 	private double overall;
 	private String summary;
@@ -25,7 +26,13 @@ public class Review
 	public String getReviewerName() {
 		return reviewerName;
 	}
+	public int[] getHelpful() {
+		return helpful;
+	}
 
+	public void setHelpful(int[] helpful) {
+		this.helpful = helpful;
+	}
 	public void setReviewerName(String reviewerName) {
 		this.reviewerName = reviewerName;
 	}
@@ -80,6 +87,6 @@ public class Review
 	}
 	public String toString()
 	{
-		return this.reviewerID +" "+this.asin+" "+this.reviewerName+" "+this.reviewText+" "+this.overall+" "+this.summary+" "+this.unixReviewTime+" "+this.reviewTime;
+		return "{\"reviewerID\": \"" + this.reviewerID +"\", \"asin\": \""+this.asin+"\", \"reviewerName\": \""+this.reviewerName+"\", \"helpful\": \"["+this.helpful[0]+","+this.helpful[1]+"]\", \"reviewText\": \""+this.reviewText+"\", \"overall\": \""+this.overall+"\", \"summary\": \""+this.summary+"\", \"unixReviewTime\": \""+this.unixReviewTime+"\", \"reviewTime\": \""+this.reviewTime+"\"}";
 	}
 }

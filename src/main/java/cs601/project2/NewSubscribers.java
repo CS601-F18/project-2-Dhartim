@@ -20,10 +20,9 @@ import com.google.gson.Gson;
 public class NewSubscribers<T> implements Subscriber<T> {
 	private BufferedWriter writer;
 	private String outPutFileName;
-	private Gson gson = new Gson();
 	private int count=0;
 	private Broker<T> broker;
-	private Logger logger = Logger.getLogger(NewSubscribers.class.getName());;
+	private Logger logger = Logger.getLogger(NewSubscribers.class.getName());
 	/**
 	 * Constructor to initialize writer and create files.
 	 * @param fileName - name of new file.
@@ -31,11 +30,10 @@ public class NewSubscribers<T> implements Subscriber<T> {
 	public NewSubscribers(String fileName, Broker<T> broker) 
 	{
 		Path filepath = Paths.get(fileName);
-		gson = new Gson();
 		this.outPutFileName = fileName;
 		this.broker = broker;
 		///registering subscriber to broker
-		broker.subscribe(this);
+		this.broker.subscribe(this);
 		//checks if files exist or not.
 		if ((new File(fileName)).exists()) {
 			(new File(fileName)).delete();
@@ -55,24 +53,21 @@ public class NewSubscribers<T> implements Subscriber<T> {
 	 */
 	@Override
 	public synchronized void onEvent(T item) {
-		//	isWriting = true;
+
 		if (item instanceof Review) {
 			Review review = (Review) item;
 
 			if (review.getUnixReviewTime() > 1362268800) {
-				String lines = gson.toJson(item);
 				try {
-					writer.write(lines);
+					writer.write(review.toString());
 					writer.newLine();
-					count+=1;
+					count += 1;
 				} catch (IOException e) {
-					logger.log(Level.SEVERE, String.format(MsgLog.unableToWriteLine, lines, outPutFileName), e);
+					logger.log(Level.SEVERE, String.format(MsgLog.unableToWriteLine, review, outPutFileName), e);
 					e.printStackTrace();
 				}
 			}
-		}
-		//	isWriting = false;
-		//System.out.println(count);
+		}		
 	}
 	/**
 	 * Finished - Called to close writer after shutting down broker.

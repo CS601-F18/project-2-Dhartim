@@ -9,23 +9,31 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
-
+/**
+ * 
+ * @author dhartimadeka
+ *Publisher calls publish method of broker. It is runnable
+ * @param <T>
+ */
 public class Publisher<T> implements Runnable 
 {
 	private static Logger logger = Logger.getLogger(Publisher.class.getName());
-	//LogHandler logHandle = new LogHandler();
+	
 	private Path pathOfFile;
 	private Broker<T> broker;
 	private Class<T> type;
 	private Gson gson = new Gson();
 	private T t;
-
+	private int count=0;
 	public Publisher(Path pathOfFile, Broker<T> broker, Class<T> type) {
 		this.pathOfFile = pathOfFile;
 		this.broker = broker;
 		this.type = type;
 	}
 
+	/**
+	 * Run - method for publish thread
+	 */
 	@Override
 	public void run() 
 	{
@@ -35,7 +43,8 @@ public class Publisher<T> implements Runnable
 			while ((readLineFromFile = br.readLine()) != null) 
 			{
 				t = gson.fromJson(readLineFromFile, type);
-				broker.publish(t); // overloading publish method ....
+				broker.publish(t);
+				count += 1;
 			}
 		} catch (IOException ioe) {
 			logger.log(Level.SEVERE, String.format(MsgLog.errorOccuredReading, pathOfFile, ioe));
@@ -43,5 +52,10 @@ public class Publisher<T> implements Runnable
 		}
 	
 		logger.log(Level.INFO, String.format(MsgLog.readingComplete, pathOfFile));
+	}
+	
+	public int linecount()
+	{
+		return count;
 	}
 }

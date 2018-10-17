@@ -51,7 +51,6 @@ public class AsyncOrderedDispatchBroker<T> implements Runnable, Broker<T> {
 	public void run() 
 	{
 		T t;
-		System.out.println("asyncorder....");
 		logger.log(Level.INFO, MsgLog.asyncMethodStart);
 		while(!stopThread )
 		{
