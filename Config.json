@@ -1,0 +1,7 @@
+{
+	"outputOldFile": "oldFile.json",
+	"outputNewFile": "newFile.json",
+	"publisher1LocationFile": "Home_and_Kitchen_5.json",
+	"publisher2LocationFile": "Apps_for_Android_5.json",
+	"broker": "AsyncUnordered"
+}
