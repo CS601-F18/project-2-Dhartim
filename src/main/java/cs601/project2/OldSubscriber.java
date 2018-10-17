@@ -58,7 +58,7 @@ public class OldSubscriber<T> implements Subscriber<T> {
 	 * @param item - item to write into newFile.json
 	 */
 	@Override
-	public  void onEvent(T item) {
+	public  synchronized void onEvent(T item) {
 
 		if (item instanceof Review) {
 			Review review = (Review) item;
