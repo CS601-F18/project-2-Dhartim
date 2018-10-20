@@ -162,19 +162,14 @@ The only external libraries you may use for this assignment are [GSON](https://g
 
 **You should only proceed to part 2 once you have completed part 1. It is strongly advised that you complete interactive grading for part 1 before you begin part 2.**
 
-To earn the final 5% on this assignment you will extend your part 1 implementation to allow a subscriber to execute on a separate host. Conceptually, this looks like the following:
-
-![pubsub](images/pubsubdistributed.jpg)
+To earn the final 5% on this assignment you will extend your part 1 implementation to allow a subscriber to execute on a separate host. 
 
 ### Hints
 
 1. Host 1 will need to implement a server that allows a remote subscriber to send a registration message.
 2. When a remote subscriber is executed, it will connect to the registration server.
 3. When a new item is published it will be forwarded from Host 1 to Host 2, then delivered to the subscriber.
-4. There are lots of ways to design a solution, however it is recommended that you modify the part 1 solution as little as possible. I have done this by implementing a `RemoteSubscriberProxy` that behaves like a normal `Subscriber` to the `Broker` on Host 1 but implements a server to accept connections from Host 2 and a client to forward items to Host 2. On Host 2, I implement a `RemoteBroker` that behaves like a normal `Broker` to the `Subscriber` on Host 2 but proxies messages coming from the `RemoteSubscriberProxy`. The figure below shows this implementation, omitting detail of the original publishers.
- 	
-![pubsub](images/pubsubdistributedproxy.jpg)
-
+4. There are lots of ways to design a solution, however it is recommended that you modify the part 1 solution as little as possible. I have done this by implementing a `RemoteSubscriberProxy` that behaves like a normal `Subscriber` to the `Broker` on Host 1 but implements a server to accept connections from Host 2 and a client to forward items to Host 2. On Host 2, I implement a `RemoteBroker` that behaves like a normal `Broker` to the `Subscriber` on Host 2 but proxies messages coming from the `RemoteSubscriberProxy`. 
 
 ## Submission
 
