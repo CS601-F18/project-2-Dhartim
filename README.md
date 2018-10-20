@@ -1,5 +1,3 @@
-# project-2-Dhartim
-project-2-Dhartim created by GitHub Classroom
 Project 2 - Publish/Subscribe Framework
 =======================================
 For this project, you will implement a message broker framework that will support [publish/subscribe](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) functionality. You will practice using the following:
